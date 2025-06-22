@@ -1,0 +1,118 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Book {
+    int id;
+    String title;
+    String author;
+
+    Book(int id, String title, String author) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+    }
+
+    public void displayBook() {
+        System.out.println("ID: " + id + ", Title: " + title + ", Author: " + author);
+    }
+}
+
+public class LibraryManagement {
+    static ArrayList<Book> books = new ArrayList<>();
+    static Scanner sc = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int choice;
+
+        do {
+            System.out.println("\n===== Library Menu =====");
+            System.out.println("1. Add Book");
+            System.out.println("2. Display All Books");
+            System.out.println("3. Search Book by Title");
+            System.out.println("4. Remove Book by ID");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+            sc.nextLine(); // consume newline
+
+            switch (choice) {
+                case 1:
+                    addBook();
+                    break;
+                case 2:
+                    displayBooks();
+                    break;
+                case 3:
+                    searchBook();
+                    break;
+                case 4:
+                    removeBook();
+                    break;
+                case 5:
+                    System.out.println("Exiting program. Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+        } while (choice != 5);
+    }
+
+    static void addBook() {
+        System.out.print("Enter Book ID: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+        System.out.print("Enter Book Title: ");
+        String title = sc.nextLine();
+        System.out.print("Enter Author Name: ");
+        String author = sc.nextLine();
+
+        Book b = new Book(id, title, author);
+        books.add(b);
+        System.out.println("Book added successfully.");
+    }
+
+    static void displayBooks() {
+        if (books.isEmpty()) {
+            System.out.println("No books available.");
+            return;
+        }
+        System.out.println("Book List:");
+        for (Book b : books) {
+            b.displayBook();
+        }
+    }
+
+    static void searchBook() {
+        System.out.print("Enter title to search: ");
+        String title = sc.nextLine();
+        boolean found = false;
+        for (Book b : books) {
+            if (b.title.equalsIgnoreCase(title)) {
+                b.displayBook();
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("Book not found.");
+        }
+    }
+
+    static void removeBook() {
+        System.out.print("Enter book ID to remove: ");
+        int id = sc.nextInt();
+        boolean removed = false;
+
+        for (Book b : books) {
+            if (b.id == id) {
+                books.remove(b);
+                System.out.println("Book removed.");
+                removed = true;
+                break;
+            }
+        }
+
+        if (!removed) {
+            System.out.println("Book with given ID not found.");
+        }
+    }
+}
